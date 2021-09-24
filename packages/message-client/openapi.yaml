@@ -1,0 +1,195 @@
+openapi: '3.0.0'
+info:
+  version: 1.0.0
+  title: Message Server
+  license:
+    name: MIT
+paths:
+  /templates/{method}:
+    get:
+      summary: List all templates by delivery method
+      operationId: listTemplates
+      parameters:
+        - name: method
+          in: path
+          description: The delivery method for which to list available templates
+          required: true
+          schema:
+            $ref: '#/components/schemas/DeliveryMethod'
+      responses:
+        200:
+          description: An array of templates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateArray'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /templates/{method}/{name}:
+    get:
+      summary: List all templates by delivery method
+      operationId: getTemplate
+      parameters:
+        - name: method
+          in: path
+          description: The delivery method for which to return the template
+          required: true
+          schema:
+            $ref: '#/components/schemas/DeliveryMethod'
+        - name: name
+          in: path
+          description: The template name to return
+          required: true
+          schema:
+            $ref: '#/components/schemas/TemplateName'
+      responses:
+        200:
+          description: The template
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /messages:
+    post:
+      summary: Send a message
+      operationId: sendMessage
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/MessageInput'
+      responses:
+        200:
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+security:
+  - bearerAuth: [] # use the same name as under securitySchemes
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Any: {}
+    DeliveryMethod:
+      type: string
+      enum:
+        - WEBSITE
+        - EMAIL
+        - SMS
+    MessageType:
+      type: string
+      enum:
+        - INFO
+        - WARN
+        - ERROR
+        - SUCCESS
+    TemplateName:
+      type: string
+      enum:
+        - basic
+    Template:
+      required:
+        - variables
+      properties:
+        method:
+          $ref: '#/components/schemas/DeliveryMethod'
+        name:
+          $ref: '#/components/schemas/TemplateName'
+        variables:
+          type: object
+        text:
+          type: string
+    TemplateArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/Template'
+    MessageInput:
+      required:
+        - method
+        - userId
+      properties:
+        userId:
+          type: string
+          description: The arbitrary user id to deliver a message to
+        method:
+          $ref: '#/components/schemas/DeliveryMethod'
+        template:
+          type: string
+          description: a template string to evaluate and use for message
+        name:
+          $ref: '#/components/schemas/TemplateName'
+          description: the name of the template to use, if template is supplied this will be ignored
+        data:
+          $ref: '#/components/schemas/Any'
+          description: data to be injected into template
+        deliverAt:
+          description: The timestamp at which to deliver the message
+          type: string
+          format: date-time
+        text:
+          type: string
+          description: if text is present, no template will be compiled and this will be the message body
+    Message:
+      required:
+        - id
+        - userId
+        - method
+        - type
+        - text
+        - delivered
+        - createdAt
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        method:
+          type: string
+        type:
+          $ref: '#/components/schemas/MessageType'
+        text:
+          type: string
+        data:
+          description: Original data supplied to template
+          $ref: '#/components/schemas/Any'
+        delivered:
+          type: boolean
+        error:
+          $ref: '#/components/schemas/Error'
+        deliverAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

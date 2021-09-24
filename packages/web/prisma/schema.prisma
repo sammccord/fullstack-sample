@@ -1,0 +1,36 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+enum DeliveryMethod {
+  WEBSITE
+  EMAIL
+  SMS
+}
+
+enum MessageType {
+  INFO
+  WARN
+  ERROR
+  SUCCESS
+}
+
+model Message {
+  id        String         @id @default(cuid())
+  userId    String
+  method    DeliveryMethod @default(WEBSITE)
+  type      MessageType    @default(INFO)
+  text      String
+  data      Json?
+  delivered Boolean        @default(false)
+  deliverAt DateTime?      @default(now())
+  error     Json?
+  createdAt DateTime       @default(now())
+}

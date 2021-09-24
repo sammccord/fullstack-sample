@@ -1,0 +1,30 @@
+{
+  "name": "@sammccord/message-client",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Sam McCord",
+  "license": "ISC",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.module.js",
+  "unpkg": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/sammccord/fullstack-sample",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "microbundle",
+    "generate": "npx @openapitools/openapi-generator-cli generate -i openapi.yaml -g typescript-axios -o src -p enumPropertyNaming=UPPERCASE && js-yaml openapi.yaml > dist/openapi.json",
+    "clean": "rm -rf dist && mkdir dist",
+    "dev": "microbundle watch",
+    "prepare": "npm run clean && npm run generate && npm run build"
+  },
+  "devDependencies": {
+    "js-yaml": "^4.1.0",
+    "microbundle": "^0.13.3"
+  },
+  "dependencies": {
+    "axios": "^0.21.4"
+  }
+}

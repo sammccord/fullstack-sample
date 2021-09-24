@@ -1,0 +1,14 @@
+export enum EVENTS {
+  ERROR = 'ERROR',
+  SIGN_UP = 'SIGN_UP',
+  LOG_IN = 'LOG_IN',
+  VISIT = 'VISIT',
+  CREATE_MESSAGE = 'CREATE_MESSAGE'
+}
+
+export enum EVENT_STATUS {
+  FAILED = -2,
+  REJECTED = -1,
+  ENGAGED = 0,
+  CONVERTED = 1
+}

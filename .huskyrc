@@ -1,0 +1,5 @@
+{
+  "hooks": {
+    "pre-commit": "lerna exec --scope web --scope redbus -- tsc"
+  }
+}

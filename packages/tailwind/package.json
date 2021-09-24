@@ -1,0 +1,29 @@
+{
+  "name": "@sammccord/tailwind",
+  "version": "1.2.0",
+  "description": "",
+  "author": "Sam McCord",
+  "license": "ISC",
+  "main": "dist/styles.css",
+  "repository": "https://github.com/sammccord/fullstack-sample",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "postcss styles.css -o dist/styles.css",
+    "clean": "rm -rf dist",
+    "dev": "postcss styles.css -w -o dist/styles.css",
+    "prepare": "npm run clean && npm run build"
+  },
+  "dependencies": {
+    "@tailwindcss/forms": "^0.3.3",
+    "@tailwindcss/typography": "^0.4.1",
+    "autoprefixer": "^10.3.1",
+    "postcss": "^8.3.5",
+    "postcss-import": "^14.0.2",
+    "tailwindcss": "^2.2.4"
+  },
+  "devDependencies": {
+    "postcss-cli": "^8.3.1"
+  }
+}

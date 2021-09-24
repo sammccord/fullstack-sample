@@ -1,0 +1,23 @@
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/web/prisma/**'
+env:
+  NODE_ENV: production
+  DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+  ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+jobs:
+  prisma-migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
+      - run: |
+          cd packages/scripts
+          npm install
+          npx prisma migrate deploy
+          npm run seed

@@ -1,0 +1,30 @@
+FROM mhart/alpine-node:14
+ARG NPM_TOKEN
+
+# Set necessary environment variables.
+ENV NODE_ENV=production
+
+# Set the default working directory for the app
+# It is a best practice to use the /usr/src/app directory
+WORKDIR /usr/src/app
+
+# Copy package.json, package-lock.json
+# Copying this separately prevents re-running npm install on every code change.
+RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+COPY packages/web/prisma/ /usr/src/web/prisma/
+
+# Install dependencies.
+RUN npm install -g prisma@3.1.1 && npm install --ignore-engines --no-save --no-optional --no-fund
+
+# Necessary to run before adding application code to leverage Docker cache
+RUN npm cache clean --force
+
+# Bundle app source
+COPY packages/message-server/. ./
+
+RUN npm run build
+
+EXPOSE 3000
+
+# Run the web service on container startup
+CMD [ "npm", "run", "start:prod" ]

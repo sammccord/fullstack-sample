@@ -1,0 +1,11 @@
+---
+method: 'email'
+email: ''
+subject: ''
+name: ''
+priority: 0
+message: ''
+---
+Hey there <% it.name %>, this is an email <% it.priority %>
+
+<% it.message %>

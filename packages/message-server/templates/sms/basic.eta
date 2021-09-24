@@ -1,0 +1,11 @@
+---
+method: 'sms'
+email: ''
+subject: ''
+name: ''
+priority: 0
+message: ''
+---
+Hey there <% it.name %>, this is a new SMS with a <% it.priority %>
+
+<% it.message %>

@@ -1,0 +1,12 @@
+**/node_modules/
+.gcloud
+.serverless
+.vercel
+dist
+build
+.env
+dashboard-app
+.empty
+_tmp_*
+.parcel-cache
+lerna-debug.log

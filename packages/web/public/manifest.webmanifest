@@ -1,0 +1,18 @@
+{
+  "background_color": "#000000",
+  "description": "MSNGR",
+  "display": "fullscreen",
+  "theme_color": "#b395b2",
+  "scope": "/",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "images/logo.svg",
+      "sizes": "128x134",
+      "type": "image/svg"
+    }
+  ],
+  "name": "MSNGR",
+  "short_name": "MSNGR",
+  "start_url": "/"
+}

@@ -1,0 +1,11 @@
+**
+!**/.npmrc
+!**/tsconfig*
+!**/nest-cli.json
+!**/package-lock.json
+!**/package.json
+!packages/web/prisma/**
+!packages/messages/package.json
+!packages/messages/package-lock.json
+!packages/messages/src
+!packages/messages/templates

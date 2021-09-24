@@ -1,0 +1,25 @@
+{
+  "name": "@sammccord/events",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Sam McCord",
+  "license": "ISC",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.module.js",
+  "unpkg": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/sammccord/fullstack-sample",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "microbundle",
+    "clean": "rm -rf dist",
+    "dev": "microbundle watch",
+    "prepare": "npm run clean && npm run build"
+  },
+  "devDependencies": {
+    "microbundle": "^0.13.3"
+  }
+}
